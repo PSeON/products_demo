@@ -1,8 +1,6 @@
 import { createModule, action } from 'vuex-class-component';
-import { Product } from '@/models/Product';
-import { ProductFilter } from '@/models/ProductFilter';
 
-function getDefaultProductFilter(): ProductFilter {
+function getDefaultProductFilter() {
   return {
     name: null,
     minPrice: null,
@@ -10,7 +8,7 @@ function getDefaultProductFilter(): ProductFilter {
   };
 }
 
-function getDefaultProducts(): Product[] {
+function getDefaultProducts() {
   return [
     { id: 1, name: 'Mercedes-Benz S 63 AMG 2019', price: 167000 },
     { id: 2, name: 'Lincoln Continental AWD 2017', price: 24000 },
@@ -31,7 +29,7 @@ export default class ProductsModule extends VuexModule {
   filter = getDefaultProductFilter();
   products = getDefaultProducts();
 
-  get filteredProducts(): Product[] {
+  get filteredProducts() {
     const filter = this.filter;
     return this.products.filter(
       product =>
@@ -42,7 +40,7 @@ export default class ProductsModule extends VuexModule {
   }
 
   @action
-  async setFilter(newFilter: ProductFilter): Promise<void> {
+  async setFilter(newFilter) {
     this.filter = newFilter;
   }
 }

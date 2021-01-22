@@ -15,13 +15,11 @@
   </Card>
 </template>
 
-<script lang="ts">
-import Vue, { PropOptions } from 'vue';
+<script>
 import Card from '@/components/Card.vue';
 import LocaleMixin from '@/mixins/LocaleMixin';
-import { Product } from '@/models/Product';
 
-export default Vue.extend({
+export default {
   name: 'ProductCard',
 
   components: {
@@ -34,9 +32,9 @@ export default Vue.extend({
     product: {
       type: Object,
       required: true,
-    } as PropOptions<Product>,
+    },
   },
-});
+};
 </script>
 
 <style lang="scss" scoped>

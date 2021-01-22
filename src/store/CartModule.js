@@ -1,20 +1,13 @@
 import { createModule, action, mutation } from 'vuex-class-component';
-import { CartItem, cartItemRuntype } from '@/models/CartItem';
-import * as runtypes from 'runtypes';
 
-const cartItemArrayRuntype = runtypes.Array(cartItemRuntype);
-
-function loadCartFromLocalStorage(): CartItem[] {
+function loadCartFromLocalStorage() {
   try {
     const rawValue = window.localStorage.getItem('cart');
     if (!rawValue) {
       return [];
     }
     const data = JSON.parse(rawValue);
-    if (cartItemArrayRuntype.guard(data)) {
-      return data;
-    }
-    return [];
+    return data;
   } catch {
     return [];
   }
@@ -23,25 +16,25 @@ function loadCartFromLocalStorage(): CartItem[] {
 const VuexModule = createModule({ namespaced: 'cart', strict: false });
 
 export default class CartModule extends VuexModule {
-  private cartItems: CartItem[] = loadCartFromLocalStorage();
+  cartItems = loadCartFromLocalStorage();
 
-  get items(): CartItem[] {
+  get items() {
     return this.cartItems;
   }
 
   @mutation
-  setItems(value: CartItem[]): void {
+  setItems(value) {
     this.cartItems = value;
     window.localStorage.setItem('cart', JSON.stringify(value));
   }
 
   @action
-  async addItem(cartItem: CartItem): Promise<void> {
+  async addItem(cartItem) {
     this.setItems([...this.items, cartItem]);
   }
 
   @action
-  async updateItem(cartItem: CartItem): Promise<void> {
+  async updateItem(cartItem) {
     const index = this.items.findIndex(item => item.productId === cartItem.productId);
     if (index === -1) {
       throw new Error('Cart item not found');
@@ -52,7 +45,7 @@ export default class CartModule extends VuexModule {
   }
 
   @action
-  async removeItem(productId: number): Promise<void> {
+  async removeItem(productId) {
     const itemIndex = this.items.findIndex(item => item.productId === productId);
     if (itemIndex === -1) {
       throw new Error('Cart item not found');

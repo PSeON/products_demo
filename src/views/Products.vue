@@ -6,15 +6,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import Vue from 'vue';
+<script>
 import ProductsFilter from '@/components/ProductsFilter.vue';
 import ProductsList from '@/components/ProductsList.vue';
-import { Product } from '@/models/Product';
-import { ProductFilter } from '@/models/ProductFilter';
 import { products } from '@/store';
 
-export default Vue.extend({
+export default {
   name: 'Products',
 
   components: {
@@ -24,19 +21,19 @@ export default Vue.extend({
 
   computed: {
     filter: {
-      get(): ProductFilter {
+      get() {
         return products.filter;
       },
-      set(value: ProductFilter) {
+      set(value) {
         products.setFilter(value);
       },
     },
 
-    filteredProducts(): Product[] {
+    filteredProducts() {
       return products.filteredProducts;
     },
   },
-});
+};
 </script>
 
 <style lang="scss" scoped>

@@ -24,17 +24,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import Vue from 'vue';
+<script>
 import Card from '@/components/Card.vue';
 import LocaleMixin from '@/mixins/LocaleMixin';
-import { CartItem } from '@/models/CartItem';
-import { Product } from '@/models/Product';
 import { cart, products } from '@/store';
 
-type CartItemProduct = CartItem & { product: Product | undefined };
-
-export default Vue.extend({
+export default {
   name: 'Cart',
 
   mixins: [LocaleMixin],
@@ -44,7 +39,7 @@ export default Vue.extend({
   },
 
   computed: {
-    cartProducts(): CartItemProduct[] {
+    cartProducts() {
       return cart.items.map(cartItem => {
         return {
           ...cartItem,
@@ -53,7 +48,7 @@ export default Vue.extend({
       });
     },
 
-    totalPrice(): number {
+    totalPrice() {
       return this.cartProducts.reduce(
         (sum, item) => sum + (item.product?.price ?? 0) * item.amount,
         0,
@@ -62,11 +57,11 @@ export default Vue.extend({
   },
 
   methods: {
-    removeFromCart(cartItem: CartItemProduct): void {
+    removeFromCart(cartItem) {
       cart.removeItem(cartItem.productId);
     },
 
-    setAmount(cartItem: CartItemProduct, value: string): void {
+    setAmount(cartItem, value) {
       const amount = parseInt(value);
       if (isNaN(amount) || amount <= 0) {
         throw new Error('Invalind amount');
@@ -74,7 +69,7 @@ export default Vue.extend({
       cart.updateItem({ productId: cartItem.productId, amount });
     },
   },
-});
+};
 </script>
 
 <style lang="scss" scoped>
