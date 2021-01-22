@@ -1,4 +1,4 @@
-# users_demo
+# products_demo
 
 ## Project setup
 
